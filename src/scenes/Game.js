@@ -10,9 +10,12 @@ export class Game extends Scene {
     }
 
     preload() {
+        this.load.image("dino", "assets/dino-idle.png");
     }
 
     create() {
+        this.add.image(200, 200, "dino")
+            .setOrigin(0);
     }
 
     update() {
