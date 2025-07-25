@@ -15,6 +15,11 @@ export class Game extends Scene {
         this.load.spritesheet("dino", "assets/dino-run.png", {frameWidth: 88, frameHeight: 94});
         this.load.image("ground", "assets/ground.png");
         this.load.image("cloud", "assets/cloud.png");
+
+        for (let i = 0; i < 6; i++) {
+            const cactusNum = i + 1;
+            this.load.image(`obstacle${cactusNum}`, `assets/cactuses_${cactusNum}.png`);
+        }
     }
 
     create() {
@@ -26,8 +31,8 @@ export class Game extends Scene {
         this.ground = this.add
             .tileSprite(0, 300, 1000, 30, "ground")
             .setOrigin(0, 1);
-        this.clouds = this.add.group();
 
+        this.clouds = this.add.group();
         this.clouds = this.clouds.addMultiple([
             this.add.image(200, 100, "cloud").setOrigin(0),
             this.add.image(300, 130, "cloud").setOrigin(0),
@@ -38,10 +43,21 @@ export class Game extends Scene {
         this.groundCollider = this.physics.add.staticSprite(0, 300, "ground").setOrigin(0, 1);
         this.groundCollider.body.setSize(1000, 30); // Adjust collision size if necessary
         this.physics.add.collider(this.player, this.groundCollider);
+        
+        for(let i=0; i < 100; i++) {
+            const cactusNum = i + 1;
+            console.log(`cactus${cactusNum}`);
+        }
+
+        this.obstacles = this.physics.add.group({
+            allowGravity: false,
+        });
     }
 
     update() {
         this.ground.tilePositionX += this.gameSpeed;
+        this.obstacleNum = Math.floor(Math.random() * 6) + 1;
+        this.obstacles.create(500, 220, `obstacle${this.obstacleNum}`).setOrigin(0);
     }
 
 }
