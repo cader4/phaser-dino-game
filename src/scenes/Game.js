@@ -42,6 +42,8 @@ export class Game extends Scene {
 
     update() {
         this.ground.tilePositionX += this.gameSpeed;
+        this.groundCollider.x += this.gameSpeed;
+        this.groundCollider.body.updateFromGameObject(); // Ensure collider updates its position
     }
 
 }
