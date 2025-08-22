@@ -118,7 +118,7 @@ export class Game extends Scene {
 
         if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up)
             && this.player.body.onFloor()){
-            this.player.setVelocityY(-1600);
+            this.player.setVelocityY(-1200);
         }
     }
 
