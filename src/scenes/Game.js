@@ -100,7 +100,7 @@ export class Game extends Scene {
         
         this.timer += delta;
         console.log(this.timer);
-        if (this.timer > 1000) {
+        if (this.timer > 2000) {
             this.obstacleNum = Math.floor(Math.random() * 6) + 1;
             this.obstacles.create(750, 220, `obstacle${this.obstacleNum}`).setOrigin(0);
             this.timer -= 1000;
