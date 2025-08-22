@@ -61,7 +61,7 @@ export class Game extends Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.physics.add.collider(this.obstacles, this.player, gameOver, null, this);
+        this.physics.add.collider(this.obstacles, this.player, this.gameOver, null, this);
         
         this.isGameRunning = true;
 
@@ -72,6 +72,15 @@ export class Game extends Scene {
                 .container(1000 / 2, (300 / 2) - 50)
                 .add([this.gameOverText, this.restartText])
                 .setAlpha(0);
+        
+        this.restartText.on("pointerdown", () => {
+            this.physics.resume();
+            this.player.setVelocityY(0);
+            this.obstacles.clear(true, true);
+            this.gameOverContainer.setAlpha(0);
+            this.isGameRunning = true;
+        });
+
     }
 
     update (time, delta) {
@@ -97,20 +106,10 @@ export class Game extends Scene {
 
         const { space, up } = this.cursors;
 
-        if (Phaser.Input.Keyboard.JustDown(space)
-                || Phaser.Input.Keyboard.JustDown(up)
-                && this.player.body.onFloor()){
+        if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up)
+            && this.player.body.onFloor()){
             this.player.setVelocityY(-1600);
         }
-
-        this.restartText.on("pointerdown", () => {
-            this.physics.resume();
-            this.player.setVelocityY(0);
-            this.obstacles.clear(true, true);
-            this.gameOverContainer.setAlpha(0);
-            this.isGameRunning = true;
-
-        })
     }
 
     gameOver () {
