@@ -29,7 +29,7 @@ export class Game extends Scene {
         this.player = this.physics.add.sprite(200, 200, "dino")
             .setDepth(1)
             .setOrigin(0, 1)
-            .setGravityY(3000)
+            .setGravityY(1000)
             .setCollideWorldBounds(true)
             .setBodySize(44, 92);
         this.ground = this.add
@@ -78,6 +78,10 @@ export class Game extends Scene {
             this.player.setVelocityY(0);
             this.obstacles.clear(true, true);
             this.gameOverContainer.setAlpha(0);
+            this.frameCounter = 0;
+            this.score = 0;
+            const formattedScore = String(Math.floor(this.score)).padStart(5, "0");
+            this.scoreText.setText(formattedScore);
             this.isGameRunning = true;
         });
 
@@ -90,6 +94,24 @@ export class Game extends Scene {
 
         this.player.play("dino-run");
 
+        this.scoreText = this.add.text(700, 50, "00000", {
+            fontSize: 30,
+            fontFamily: "Arial",
+            color: "#535353",
+            resolution: 5
+        }).setOrigin(1, 0);
+
+        this.score = 0;
+
+        this.frameCounter = 0;
+
+        this.highScore = 0;
+        this.highScoreText = this.add.text(700, 0, "High: 00000", {
+            fontSize: 30,
+            fontFamily: "Arial",
+            color: "#535353",
+            resolution: 5
+        }).setOrigin(1,0).setAlpha(1);
 
     }
 
@@ -118,11 +140,27 @@ export class Game extends Scene {
 
         if (Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up)
             && this.player.body.onFloor()){
-            this.player.setVelocityY(-1200);
+            this.player.setVelocityY(-1150);
+        }
+
+        this.frameCounter++;
+        if (this.frameCounter > 100) {
+            this.score += 100;
+            const formattedScore = String(Math.floor(this.score));
+            this.scoreText.setText(formattedScore);
+            this.frameCounter -= 100;
         }
     }
 
     gameOver () {
+        // check to see if high score
+        if (this.score > this.highScore) {
+            // update high score variable
+            this.highScore = this.score;
+            // update high score text
+            this.highScoreText.setText("High: " + String(this.highScore).padStart(5, "0"));
+        }
+
         this.physics.pause();
         this.timer = 0;
         this.isGameRunning = false;
