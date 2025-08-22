@@ -52,12 +52,32 @@ export class Game extends Scene {
         this.obstacles = this.physics.add.group({
             allowGravity: false,
         });
+
+        this.timer = 0
     }
 
     update() {
         this.ground.tilePositionX += this.gameSpeed;
         this.obstacleNum = Math.floor(Math.random() * 6) + 1;
         this.obstacles.create(500, 220, `obstacle${this.obstacleNum}`).setOrigin(0);
-    }
 
+    }
 }
+
+    function update (time, delta) {
+        this.ground.tilePositionX += this.gameSpeed;
+        this.timer += delta;
+        console.log(this.timer);
+        if (this.timer > 1000) {
+            this.obstacleNum = Math.floor(Math.random() * 6) + 1;
+            this.obstacles.create(750, 220, `obstacle${this.obstacleNum}`).setOrigin(0);
+            this.timer -= 1000;
+        }
+        Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
+        this.obstacles.getChildren().forEach(obstacle => {
+            if (obstacle.getBounds().right < 0) {
+                this.obstacles.remove(obstacle);
+                obstacle.destroy();
+            }
+        })
+    }
