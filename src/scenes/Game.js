@@ -102,7 +102,7 @@ export class Game extends Scene {
         console.log(this.timer);
         if (this.timer > 2000) {
             this.obstacleNum = Math.floor(Math.random() * 6) + 1;
-            this.obstacles.create(750, 220, `obstacle${this.obstacleNum}`).setOrigin(0);
+            this.obstacles.create(750, 300, `obstacle${this.obstacleNum}`).setOrigin(0, 1);
             this.timer -= 1000;
         }
         Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
