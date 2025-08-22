@@ -43,7 +43,7 @@ export class Game extends Scene {
             this.add.image(450, 90, "cloud").setOrigin(0)
         ]);
 
-        this.gameSpeed = 5;
+        this.gameSpeed = 10;
         this.groundCollider = this.physics.add.staticSprite(0, 300, "ground").setOrigin(0, 1);
         this.groundCollider.body.setSize(1000, 30); // Adjust collision size if necessary
         this.physics.add.collider(this.player, this.groundCollider);
@@ -80,6 +80,16 @@ export class Game extends Scene {
             this.gameOverContainer.setAlpha(0);
             this.isGameRunning = true;
         });
+
+        this.anims.create({
+            key: "dino-run",
+            frames: this.anims.generateFrameNumbers("dino", { start: 0, end: 1 }),
+            frameRate: 10, // 10 frames per second
+            repeat: -1     // loop forever
+        });
+
+        this.player.play("dino-run");
+
 
     }
 
