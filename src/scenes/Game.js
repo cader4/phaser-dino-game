@@ -54,17 +54,11 @@ export class Game extends Scene {
         });
 
         this.timer = 0
+
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
-    update() {
-        this.ground.tilePositionX += this.gameSpeed;
-        this.obstacleNum = Math.floor(Math.random() * 6) + 1;
-        this.obstacles.create(500, 220, `obstacles${this.obstacleNum}`).setOrigin(0);
-
-    }
-}
-
-    function update (time, delta) {
+    update (time, delta) {
         this.ground.tilePositionX += this.gameSpeed;
         this.timer += delta;
         console.log(this.timer);
@@ -74,10 +68,18 @@ export class Game extends Scene {
             this.timer -= 1000;
         }
         Phaser.Actions.IncX(this.obstacles.getChildren(), -this.gameSpeed);
+
         this.obstacles.getChildren().forEach(obstacle => {
             if (obstacle.getBounds().right < 0) {
                 this.obstacles.remove(obstacle);
                 obstacle.destroy();
             }
         })
+
+        const { space, up } = this.cursors;
+
+        if (space.isDown || up.isDown) {
+            this.player.setVelocityY(-1600);
+        }
     }
+}
