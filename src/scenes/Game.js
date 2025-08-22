@@ -24,6 +24,7 @@ export class Game extends Scene {
 
     create() {
         this.player = this.physics.add.sprite(200, 200, "dino")
+            .setDepth(1)
             .setOrigin(0, 1)
             .setGravityY(5000)
             .setCollideWorldBounds(true)
@@ -56,9 +57,15 @@ export class Game extends Scene {
         this.timer = 0
 
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.physics.add.collider(this.obstacles, this.player, gameOver, null, this);
+        
+        this.isGameRunning = true;
     }
 
     update (time, delta) {
+        if(!this.isGameRunning) {return;}
+
         this.ground.tilePositionX += this.gameSpeed;
         
         this.timer += delta;
@@ -84,5 +91,11 @@ export class Game extends Scene {
                 && this.player.body.onFloor()){
             this.player.setVelocityY(-1600);
         }
+    }
+
+    gameOver () {
+        this.physics.pause();
+        this.timer = 0;
+        this.isGameRunning = false;
     }
 }
