@@ -20,6 +20,9 @@ export class Game extends Scene {
             const cactusNum = i + 1;
             this.load.image(`obstacle${cactusNum}`, `assets/cactuses_${cactusNum}.png`);
         }
+
+        this.load.image("game-over", "assets/game-over.png");
+        this.load.image("restart", "assets/restart.png");
     }
 
     create() {
@@ -61,6 +64,14 @@ export class Game extends Scene {
         this.physics.add.collider(this.obstacles, this.player, gameOver, null, this);
         
         this.isGameRunning = true;
+
+        this.gameOverText = this.add.image(0, 0, "game-over");
+        this.restartText = this.add.image(0, 80, "restart").setInteractive();
+
+        this.gameOverContainer = this.add
+                .container(1000 / 2, (300 / 2) - 50)
+                .add([this.gameOverText, this.restartText])
+                .setAlpha(0);
     }
 
     update (time, delta) {
@@ -91,11 +102,21 @@ export class Game extends Scene {
                 && this.player.body.onFloor()){
             this.player.setVelocityY(-1600);
         }
+
+        this.restartText.on("pointerdown", () => {
+            this.physics.resume();
+            this.player.setVelocityY(0);
+            this.obstacles.clear(true, true);
+            this.gameOverContainer.setAlpha(0);
+            this.isGameRunning = true;
+
+        })
     }
 
     gameOver () {
         this.physics.pause();
         this.timer = 0;
         this.isGameRunning = false;
+        this.gameOverContainer.setAlpha(1);
     }
 }
