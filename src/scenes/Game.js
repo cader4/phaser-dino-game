@@ -59,7 +59,7 @@ export class Game extends Scene {
     update() {
         this.ground.tilePositionX += this.gameSpeed;
         this.obstacleNum = Math.floor(Math.random() * 6) + 1;
-        this.obstacles.create(500, 220, `obstacle${this.obstacleNum}`).setOrigin(0);
+        this.obstacles.create(500, 220, `obstacles${this.obstacleNum}`).setOrigin(0);
 
     }
 }
