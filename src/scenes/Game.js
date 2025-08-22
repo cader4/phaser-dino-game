@@ -29,7 +29,7 @@ export class Game extends Scene {
         this.player = this.physics.add.sprite(200, 200, "dino")
             .setDepth(1)
             .setOrigin(0, 1)
-            .setGravityY(5000)
+            .setGravityY(3000)
             .setCollideWorldBounds(true)
             .setBodySize(44, 92);
         this.ground = this.add
