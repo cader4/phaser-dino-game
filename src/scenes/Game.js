@@ -79,7 +79,9 @@ export class Game extends Scene {
 
         const { space, up } = this.cursors;
 
-        if (space.isDown || up.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(space)
+                || Phaser.Input.Keyboard.JustDown(up)
+                && this.player.body.onFloor()){
             this.player.setVelocityY(-1600);
         }
     }
