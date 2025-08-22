@@ -60,6 +60,7 @@ export class Game extends Scene {
 
     update (time, delta) {
         this.ground.tilePositionX += this.gameSpeed;
+        
         this.timer += delta;
         console.log(this.timer);
         if (this.timer > 1000) {
